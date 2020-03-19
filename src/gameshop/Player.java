@@ -25,7 +25,7 @@ class Player
             System.out.println(w.weaponName+" bought...");
             backpack[numItems] = w;
             numItems++;
-            System.out.println(numItems);
+            System.out.println("Weapons in your backpack: " + numItems);
         }
         public void withdraw(double amt)
         {

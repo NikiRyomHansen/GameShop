@@ -55,34 +55,50 @@ public class GameShop {
         }
     }
 
-    public static void showRoomMenu(HashTable ht, Player p) {
+    public static void showRoomMenu(BSTree bst, Player p) {
         System.out.println("WELCOME TO THE SHOWROOM!!!!");
-        ht.printTable();
+        bst.inOrderTrav();
         System.out.println("You have " + p.money + " money.");
         System.out.println("Please select a weapon to buy('end' to quit):");
     }
 
-    public static void showRoom(HashTable ht, Player p, Scanner sc) {
+    public static void showRoom(BSTree bst, Player p, Scanner sc) {
         String choice;
-        showRoomMenu(ht, p);
+        showRoomMenu(bst, p);
         choice = sc.next();
         while (choice.compareTo("end") != 0 && !p.inventoryFull()) {
-            ShopItem si = ht.get(choice);
-            if (si != null) {
+            // if the current node is null, prompt the user
+            if (bst.getCurrentNode(choice) == null) {
+                System.out.println(" ** " + choice + " not found!! **");
+            } else {
+                // else assign the current node to a ShopItem
+                ShopItem si = bst.getCurrentNode(choice).data;
+                // if the item costs more than the player has
                 if (si.item.cost > p.money) {
                     System.out.println("Insufficient funds to buy " + si.item.weaponName);
                 } else {
-                    p.buy(si.item);
-                    p.withdraw(si.item.cost);
-                    si.numberInStock--;
+                    // else buy the item, withdraw the cost from the player and decrease the stock
+                    // if the item is already in the backpack, don't buy
+                    // flag to track if item is in backpack
+                    boolean flag = false;
+                    for (int i = 0; i < p.numItems; i++) {
+                        if (p.backpack[i].weaponName.equalsIgnoreCase(choice)) {
+                            System.out.println("** You already have " + choice + " in your backpack **");
+                            flag = true;
+                        }
+                    }
+                    if (!flag) {
+                        p.buy(si.item);
+                        p.withdraw(si.item.cost);
+                        si.numberInStock--;
+                        // TODO: Put the item into the players backpack? Already done in buy though? Assignment says extend project to this???
+                    }
                 }
-            } else {
-                System.out.println(" ** " + choice + " not found!! **");
             }
-            showRoomMenu(ht, p);
+            showRoomMenu(bst, p);
             choice = sc.next();
         }
-        System.out.println("");
+        System.out.println();
     }
 
     public static void main(String[] args) {
@@ -91,11 +107,9 @@ public class GameShop {
         System.out.println("Please enter Player name:");
         pname = sc.next();
         Player pl = new Player(pname, 45);
-//        HashTable ht = new HashTable(101);
         BSTree bst = new BSTree();
         addWeapons(bst, sc);
-        bst.inOrderTrav();
-//        showRoom(ht, pl, sc);
+        showRoom(bst, pl, sc);
         pl.printCharacter();
 
     }
