@@ -32,7 +32,7 @@ public class GameShop {
     }
 
 
-    public static void addWeapons(HashTable h, Scanner sc) {
+    public static void addWeapons(BSTree bst, Scanner sc) {
         System.out.println("***********WELCOME TO THE WEAPON ADDING MENU*********");
         String weaponName;
         int weaponRange;
@@ -41,7 +41,7 @@ public class GameShop {
         double weaponCost;
         int quantity;
         System.out.print("Please enter the NAME of the Weapon ('end' to quit):");
-        weaponName = sc.next();
+        weaponName = sc.next(); // TODO: EXTRA: Make it so weapons can be more than 1 word / token - (nextLine() + next())
         while (weaponName.compareTo("end") != 0) {
             weaponRange = getInteger(sc, "Please enter the Range of the Weapon (0-10):");
             weaponDamage = getInteger(sc, "Please enter the Damage of the Weapon:");
@@ -49,7 +49,7 @@ public class GameShop {
             weaponCost = getDouble(sc, "Please enter the Cost of the Weapon:");
             Weapon w = new Weapon(weaponName, weaponRange, weaponDamage, weaponWeight, weaponCost);
             quantity = getInteger(sc, "Please enter the quantity in stock:");
-            h.put(w, quantity);
+            bst.insert(w, quantity);
             System.out.print("Please enter the NAME of another Weapon ('end' to quit):");
             weaponName = sc.next();
         }
@@ -91,9 +91,11 @@ public class GameShop {
         System.out.println("Please enter Player name:");
         pname = sc.next();
         Player pl = new Player(pname, 45);
-        HashTable ht = new HashTable(101);
-        addWeapons(ht, sc);
-        showRoom(ht, pl, sc);
+//        HashTable ht = new HashTable(101);
+        BSTree bst = new BSTree();
+        addWeapons(bst, sc);
+        bst.inOrderTrav();
+//        showRoom(ht, pl, sc);
         pl.printCharacter();
 
     }

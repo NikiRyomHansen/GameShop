@@ -53,7 +53,7 @@ public class BSTree {
     public void recursiveInOrder(BSTNode current) {
         if (current != null) {
             recursiveInOrder(current.left);
-            System.out.println(current.data); // TODO: Maybe add an if statement if root.data.numberInStock < 1 { don't print }
+            System.out.println(current.data); // TODO: add an if statement if root.data.numberInStock < 1 { don't print }
             recursiveInOrder(current.right);
         }
     }
