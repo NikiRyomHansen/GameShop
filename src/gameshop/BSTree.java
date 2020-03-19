@@ -49,11 +49,13 @@ public class BSTree {
         recursiveInOrder(root);
     }
 
-    // Recursively go through the BST in order
+    // Recursively go through the BST in order - ONLY printing if stock is higher than 0
     public void recursiveInOrder(BSTNode current) {
         if (current != null) {
             recursiveInOrder(current.left);
-            System.out.println(current.data); // TODO: add an if statement if root.data.numberInStock < 1 { don't print }
+            if (current.data.numberInStock > 0) {
+                System.out.println(current.data);
+            }
             recursiveInOrder(current.right);
         }
     }
