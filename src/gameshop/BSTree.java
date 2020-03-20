@@ -43,6 +43,10 @@ public class BSTree {
         }
     }
 
+    public boolean test(){
+        return true;
+    }
+
     // Print In Order Traversal of the BST
     public void inOrderTrav() {
         System.out.println("In Order Traversal");
