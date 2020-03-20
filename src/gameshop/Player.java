@@ -36,6 +36,7 @@ class Player {
     }
 
     public void printCharacter() {
+        System.out.println("Player details:");
         System.out.println("Name:" + name + "\nMoney:" + money + "\n");
         printBackpack();
     }

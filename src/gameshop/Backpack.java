@@ -60,7 +60,7 @@ class Backpack {
     // Print the list
     public void printList() {
         if (head == null)
-            System.out.println("List is empty");
+            System.out.println("Backpack is empty");
         else {
             BackpackNode current = head;
             while (current != null) {

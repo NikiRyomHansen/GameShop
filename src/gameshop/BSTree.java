@@ -69,16 +69,16 @@ public class BSTree {
     }
 
     // Update an item by weaponName
-    public boolean update(String weaponName, Weapon item, int quantity) {
+    public BSTNode update(String weaponName, Weapon item, int quantity) {
         // Find the current node and assign it to current
         BSTNode current = getCurrentNode(weaponName);
         // If the current node is null, the item is not there
         if (current == null)
-            return false;
+            return null;
         // We now know the current node is now the item we're looking for
         // Instantiate a ShopItem object with the parameters item and quantity and assign the current node to it
         current.data = new ShopItem(item, quantity);
-        return true;
+        return current;
     }
 
     // Return the current node by weaponName
@@ -103,7 +103,8 @@ public class BSTree {
         return current;
     }
 
-    void deleteKey(String weaponName, Player player) {
+    // Delete a weapon from the list
+    public void delete(String weaponName, Player player) {
         root = deleteRec(root, weaponName);
         player.numItems--;
     }

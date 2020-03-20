@@ -31,27 +31,119 @@ public class GameShop {
         return sc.nextDouble();
     }
 
+    // present the player for a menu
+    public static void menu(BSTree bst, Scanner sc, Player p) {
+        int choice;
+        do {
+            // the player menu
+            System.out.println("** Game Menu **");
+            System.out.println("1. Add items to the shop");
+            System.out.println("2. Update existing items in the shop");
+            System.out.println("3. Delete items from the shop");
+            System.out.println("4. Buy from the shop");
+            System.out.println("5. View backpack");
+            System.out.println("6. View player");
+            System.out.println("7. Exit");
+            // get the user input
+            choice = sc.nextInt(); // TODO Exception handling
+
+            switch (choice) {
+
+                // Add a weapon to the shop
+                case 1:
+                    addWeapons(bst, sc);
+                    break;
+                // Update a weapon in the shop
+                case 2:
+                    updateWeapon(bst, sc);
+                    break;
+                // Delete a weapon from the shop
+                case 3:
+                    deleteWeapon(bst, sc, p);
+                    break;
+                // buy a weapon from the shop
+                case 4:
+                    showRoom(bst, p, sc);
+                    break;
+                // Print the players backpack
+                case 5:
+                    p.printBackpack();
+                    break;
+                // Print the player
+                case 6:
+                    p.printCharacter();
+                    break;
+                // Exit the program
+                case 7:
+                    System.exit(0);
+                // If none of the cases true
+                default:
+                    System.out.println("Please enter 1-7");
+            }
+        } while (choice < 10);
+
+    }
+
 
     public static void addWeapons(BSTree bst, Scanner sc) {
         System.out.println("***********WELCOME TO THE WEAPON ADDING MENU*********");
         String weaponName;
-        int weaponRange;
-        int weaponDamage;
-        double weaponWeight;
-        double weaponCost;
-        int quantity;
         System.out.print("Please enter the NAME of the Weapon ('end' to quit):");
         weaponName = sc.next(); // TODO: EXTRA: Make it so weapons can be more than 1 word / token - (nextLine() + next())
         while (weaponName.compareTo("end") != 0) {
-            weaponRange = getInteger(sc, "Please enter the Range of the Weapon (0-10):");
-            weaponDamage = getInteger(sc, "Please enter the Damage of the Weapon:");
-            weaponWeight = getDouble(sc, "Please enter the Weight of the Weapon (in pounds):");
-            weaponCost = getDouble(sc, "Please enter the Cost of the Weapon:");
+            int weaponRange = getInteger(sc, "Please enter the Range of the Weapon (0-10):");
+            int weaponDamage = getInteger(sc, "Please enter the Damage of the Weapon:");
+            double weaponWeight = getDouble(sc, "Please enter the Weight of the Weapon (in pounds):");
+            double weaponCost = getDouble(sc, "Please enter the Cost of the Weapon:");
             Weapon w = new Weapon(weaponName, weaponRange, weaponDamage, weaponWeight, weaponCost);
-            quantity = getInteger(sc, "Please enter the quantity in stock:");
+            int quantity = getInteger(sc, "Please enter the quantity in stock:");
             bst.insert(w, quantity);
             System.out.print("Please enter the NAME of another Weapon ('end' to quit):");
             weaponName = sc.next();
+        }
+    }
+
+    // Update a weapon in the shop
+    public static void updateWeapon(BSTree bst, Scanner sc) {
+        System.out.println("***********WELCOME TO THE WEAPON UPDATING MENU*********");
+        System.out.println("Please enter the NAME of the weapon you want to update ('end' to quit");
+        String weaponName;
+        weaponName = sc.next(); // TODO: EXTRA: Make it so weapons can be more than 1 word / token - (nextLine() perhaps)
+        // TODO: while the item is not in the list, keep prompting the user
+        // while input != "end" and while the weapon is in the list
+        while (weaponName.compareTo("end") != 0 && bst.search(weaponName)) { /////////////////
+            int weaponRange = getInteger(sc, "Please enter the Range of the Weapon (0-10):");
+            int weaponDamage = getInteger(sc, "Please enter the Damage of the Weapon:");
+            double weaponWeight = getDouble(sc, "Please enter the Weight of the Weapon (in pounds):");
+            double weaponCost = getDouble(sc, "Please enter the Cost of the Weapon:");
+            Weapon weapon = new Weapon(weaponName, weaponRange, weaponDamage, weaponWeight, weaponCost);
+            int quantity = getInteger(sc, "Please enter the quantity in stock:");
+            bst.update(weaponName, weapon, quantity);
+            System.out.print("Please enter the NAME of another Weapon ('end' to quit):");
+            weaponName = sc.next();
+        }
+    }
+
+    // Delete a weapon in the shop
+    public static void deleteWeapon(BSTree bst, Scanner sc, Player p) {
+        System.out.println("***********WELCOME TO THE WEAPON DELETION MENU*********");
+        System.out.println("Please enter the NAME of the weapon you want to delete ('end' to quit");
+        String weaponName = sc.next(); // TODO: EXTRA: Make it so weapons can be more than 1 word / token - (nextLine() perhaps)
+        // TODO: while the item is not in the list, keep prompting the user
+        // while the input is not in the list or input != end , keep prompting
+        while (!bst.search(weaponName) && weaponName.compareTo("end") != 0) {
+            System.out.println("The item was not in the list, try again ('end' to quit)");
+            weaponName = sc.next();
+        }
+        // while the item is in the list, ask the player if they want to delete "weapon"
+        if (bst.search(weaponName)) {
+            System.out.println("Enter 'Y' to delete:\n" + bst.getCurrentNode(weaponName).data.item);
+            String delete = sc.next();
+            if (delete.equalsIgnoreCase("y")) {
+                System.out.println("Successfully deleted: " + bst.getCurrentNode(weaponName).data.item.weaponName +
+                        " from the shop");
+                bst.delete(weaponName, p);
+            }
         }
     }
 
@@ -104,11 +196,12 @@ public class GameShop {
         String pname;
         System.out.println("Please enter Player name:");
         pname = sc.next();
-        Player pl = new Player(pname, 45);
+        Player p = new Player(pname, 45);
         BSTree bst = new BSTree();
-        addWeapons(bst, sc);
-        showRoom(bst, pl, sc);
-        pl.printCharacter();
+        menu(bst, sc, p);
+//        addWeapons(bst, sc);
+//        showRoom(bst, pl, sc);
+//        pl.printCharacter();
 
     }
 
