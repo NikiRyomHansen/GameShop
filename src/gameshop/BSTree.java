@@ -16,7 +16,7 @@ public class BSTree {
         // Instantiating a ShopItem object for the new Node
         ShopItem shopItem = new ShopItem(item, quantity);
         // Instantiating a new Node for the BST
-        BSTNode newNode =new BSTNode(shopItem);
+        BSTNode newNode = new BSTNode(shopItem);
 
         // if the root is null, set root to newNode
         if (root == null) {
@@ -69,7 +69,6 @@ public class BSTree {
     }
 
     // Update an item by weaponName
-    // TODO?? perhaps remove parameter weaponName and just use the item, but then weaponName cannot be changed
     public boolean update(String weaponName, Weapon item, int quantity) {
         // Find the current node and assign it to current
         BSTNode current = getCurrentNode(weaponName);
@@ -104,26 +103,47 @@ public class BSTree {
         return current;
     }
 
-    // Return the current node by weaponName
-    public boolean currentNodeByWeaponName(String weaponName) {
-        if (root == null) {
-            return false;
+    void deleteKey(String weaponName, Player player) {
+        root = deleteRec(root, weaponName);
+        player.numItems--;
+    }
+
+    // recursive function to delete a node: ShopItem by weaponName
+    public BSTNode deleteRec(BSTNode current, String weaponName) {
+        // base case, if root == null
+        if (root == null)
+            return current;
+
+        // recursively go down the tree
+        if (current.data.item.weaponName.compareToIgnoreCase(weaponName) > 0) {
+            current.left = deleteRec(current.left, weaponName);
+        } else if (current.data.item.weaponName.compareToIgnoreCase(weaponName) < 0) {
+            current.right = deleteRec(current.right, weaponName);
+        } else {
+            // if the Node only has one child or no child
+            if (current.left == null)
+                return current.right;
+            else if (current.right == null)
+                return current.left;
+
+            // Node with two children, get the inOrder successor (smallest value greater than the input)
+            current.data = minValue(current.right);
+
+            // Delete the inorder successor
+            current.right = deleteRec(current.right, current.data.item.weaponName);
         }
-        BSTNode current = root;
-        // While the current node is not null and is not the item we're looking for, keep iterating
-        while (current != null && !current.data.item.weaponName.equalsIgnoreCase(weaponName)) {
-            // if the current item is greater than the item we're searching for, set current to left
-            if (current.data.item.weaponName.compareToIgnoreCase(weaponName) > 0) {
-                current = current.left;
-            } else { // if the current item is less, set current to right
-                current = current.right;
-            }
+
+        return current;
+    }
+
+    // find the lowest value in the current tree or subtree
+    ShopItem minValue(BSTNode root) {
+        ShopItem minValue = root.data;
+        while (root.left != null) {
+            minValue = root.left.data;
+            root = root.left;
         }
-        // If the current node equals null, we know the item is not in the tree
-        if (current == null) {
-            return false;
-        }
-        return true;
+        return minValue;
     }
 
 

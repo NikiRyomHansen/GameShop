@@ -91,7 +91,6 @@ public class GameShop {
                         p.buy(si.item);
                         p.withdraw(si.item.cost);
                         si.numberInStock--;
-                        // TODO: Put the item into the players backpack? Already done in buy though? Assignment says extend project to this???
                     }
                 }
             }
