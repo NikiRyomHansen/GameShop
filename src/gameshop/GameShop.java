@@ -66,7 +66,7 @@ public class GameShop {
         String choice;
         showRoomMenu(bst, p);
         choice = sc.next();
-        while (choice.compareTo("end") != 0 && !p.inventoryFull()) {
+        while (choice.compareTo("end") != 0) {
             // if the current node is null, prompt the user
             if (bst.getCurrentNode(choice) == null) {
                 System.out.println(" ** " + choice + " not found!! **");
@@ -82,14 +82,13 @@ public class GameShop {
                     // flag to track if item is in backpack
                     boolean flag = false;
                     for (int i = 0; i < p.numItems; i++) {
-                        if (p.backpack[i].weaponName.equalsIgnoreCase(choice)) {
-                            System.out.println("** You already have " + choice + " in your backpack **");
+                        if (p.backpack.search(choice)) {
+                            System.out.println("** You already have '" + choice + "' in your backpack **");
                             flag = true;
                         }
                     }
                     if (!flag) {
                         p.buy(si.item);
-                        p.withdraw(si.item.cost);
                         si.numberInStock--;
                     }
                 }
