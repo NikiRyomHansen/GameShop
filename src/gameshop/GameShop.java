@@ -5,6 +5,7 @@
  */
 package gameshop;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -12,27 +13,57 @@ import java.util.Scanner;
  */
 public class GameShop {
 
-    // TODO: Clean up the double messages when entering the while loop - fix with a do while perhaps?
+    private static Scanner sc = new Scanner(System.in);
+
     public static int getInteger(Scanner sc, String message) {
         System.out.print(message);
+        // while the input is not an int, keep looping
         while (!sc.hasNextInt()) {
-            sc.nextLine(); //clear the invalid input ...
+            // try-catch if the user inputs anything other than integers
+            try {
+                sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("No characters allowed");
+                // clear Scanner input
+                sc.next();
+            }
             System.out.print(message);
         }
         return sc.nextInt();
     }
 
+
     public static double getDouble(Scanner sc, String message) {
         System.out.print(message);
+        // while the input is not a double, keep looping
         while (!sc.hasNextDouble()) {
-            sc.nextLine(); //clear the invalid input ...
+            // try-catch if the user inputs anything other than double
+            try {
+                sc.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("No characters allowed");
+                // clear Scanner input
+                sc.next();
+            }
             System.out.print(message);
         }
         return sc.nextDouble();
     }
 
+    // Create a Player
+    public static Player createPlayer() {
+        // Prompting the user for the Player's name
+        System.out.println("Please enter Player name: ");
+        String playerName = sc.nextLine();
+        // Instantiating a Player
+        // Instantiating a Binary Search Tree (BSTree) object
+        return new Player(playerName, 45);
+    }
+
     // present the player for a menu
-    public static void menu(BSTree bst, Scanner sc, Player p) {
+    public static void menu(Player p) {
+        // Create a player
+        BSTree bst = new BSTree();
         int choice;
         do {
             // the player menu
@@ -45,7 +76,16 @@ public class GameShop {
             System.out.println("6. View player");
             System.out.println("7. Exit");
             // get the user input
-            choice = sc.nextInt(); // TODO Exception handling
+            // if InputMismatchException is found, continue in the next iteration
+            try {
+                choice = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter 1-7");
+                // Clear the Scanner input
+                sc.next();
+                continue;
+            }
+
 
             switch (choice) {
 
@@ -76,12 +116,11 @@ public class GameShop {
                 // Exit the program
                 case 7:
                     System.exit(0);
-                // If none of the cases true
+                    // If none of the case conditions are true
                 default:
                     System.out.println("Please enter 1-7");
             }
-        } while (choice < 10);
-
+        } while (true);
     }
 
 
@@ -89,7 +128,7 @@ public class GameShop {
         System.out.println("***********WELCOME TO THE WEAPON ADDING MENU*********");
         String weaponName;
         System.out.print("Please enter the NAME of the Weapon ('end' to quit):");
-        weaponName = sc.next(); // TODO: EXTRA: Make it so weapons can be more than 1 word / token - (nextLine() + next())
+        weaponName = sc.next(); // TODO: Read more than one token incase weaponName is 2 words
         while (weaponName.compareTo("end") != 0) {
             int weaponRange = getInteger(sc, "Please enter the Range of the Weapon (0-10):");
             int weaponDamage = getInteger(sc, "Please enter the Damage of the Weapon:");
@@ -192,17 +231,8 @@ public class GameShop {
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String pname;
-        System.out.println("Please enter Player name:");
-        pname = sc.next();
-        Player p = new Player(pname, 45);
-        BSTree bst = new BSTree();
-        menu(bst, sc, p);
-//        addWeapons(bst, sc);
-//        showRoom(bst, pl, sc);
-//        pl.printCharacter();
-
+        Player p = createPlayer();
+        menu(p);
     }
 
 }
