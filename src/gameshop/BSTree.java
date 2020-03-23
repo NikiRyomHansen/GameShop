@@ -71,7 +71,7 @@ public class BSTree {
     }
 
     // Recursively go through the BST in order - ONLY printing if stock is higher than 0
-    public void recursiveInOrder(BSTNode current) {
+    private void recursiveInOrder(BSTNode current) {
         if (current != null) {
             recursiveInOrder(current.left);
             if (current.data.numberInStock > 0) {
