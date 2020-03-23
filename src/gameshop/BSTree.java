@@ -43,8 +43,25 @@ public class BSTree {
         }
     }
 
-    public boolean test(){
-        return true;
+    // Search - if not found returns null, if found returns BSTNode
+    public BSTNode search(Weapon weapon){
+
+        // return null if BST is empty
+        if(this.root == null){ return null; }
+
+        BSTNode current = this.root;
+        while(current != null){
+            if(current.data.item.weaponName.equals(weapon.weaponName)){
+                return current;
+            }
+            if(current.data.item.weaponName.compareToIgnoreCase(weapon.weaponName)>0){
+                current = current.left;
+            }
+            else{
+                current = current.right;
+            }
+        }
+        return null;
     }
 
     // Print In Order Traversal of the BST
