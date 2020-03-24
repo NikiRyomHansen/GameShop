@@ -97,7 +97,6 @@ public class GameShop {
         bst.inOrderTrav();
 //        showRoom(ht, pl, sc);
         pl.printCharacter();
-
     }
 
 }
