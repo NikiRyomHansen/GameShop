@@ -43,6 +43,7 @@ public class BSTree {
         }
     }
 
+
     // Search - if not found returns null, if found returns BSTNode
     public BSTNode search(Weapon weapon){
 
@@ -63,6 +64,7 @@ public class BSTree {
         }
         return null;
     }
+
 
     // Print In Order Traversal of the BST
     public void inOrderTrav() {
