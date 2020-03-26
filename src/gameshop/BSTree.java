@@ -16,7 +16,7 @@ public class BSTree {
         // Instantiating a ShopItem object for the new Node
         ShopItem shopItem = new ShopItem(item, quantity);
         // Instantiating a new Node for the BST
-        BSTNode newNode =new BSTNode(shopItem);
+        BSTNode newNode = new BSTNode(shopItem);
 
         // if the root is null, set root to newNode
         if (root == null) {
@@ -46,10 +46,12 @@ public class BSTree {
 
     // Returns true if node was updated OR false if node not found
     public boolean update(Weapon weapon, int quantity){
-        
+
         BSTNode nodee = search(weapon.weaponName);
         // if current is null then search could not find the node to be updated
-        if(nodee == null){ return false; }
+        if(nodee == null){
+            System.out.println("Node is null");
+            return false; }
 
         // finally, updates the original node (nodee) to the params
         nodee.data = new ShopItem(weapon,quantity);
@@ -80,7 +82,6 @@ public class BSTree {
 
     // Print In Order Traversal of the BST
     public void inOrderTrav() {
-        System.out.println("In Order Traversal");
         recursiveInOrder(root);
     }
 
@@ -94,5 +95,65 @@ public class BSTree {
             recursiveInOrder(current.right);
         }
     }
+
+    // Delete a weapon from the list
+    public void delete(String weaponName, Player player) {
+        root = deleteRec(root, weaponName);
+        player.numItems--;
+    }
+
+    // recursive function to delete a node: ShopItem by weaponName
+    private BSTNode deleteRec(BSTNode current, String weaponName) {
+        // base case, if root == null
+        if (root == null)
+            return current;
+
+        // recursively go down the tree
+        if (current.data.item.weaponName.compareToIgnoreCase(weaponName) > 0) {
+            current.left = deleteRec(current.left, weaponName);
+        } else if (current.data.item.weaponName.compareToIgnoreCase(weaponName) < 0) {
+            current.right = deleteRec(current.right, weaponName);
+        } else {
+            // if the Node only has one child or no child
+            if (current.left == null)
+                return current.right;
+            else if (current.right == null)
+                return current.left;
+
+            // Node with two children, get the inOrder successor (smallest value greater than the input)
+            current.data = minValue(current.right);
+
+            // Delete the inorder successor
+            current.right = deleteRec(current.right, current.data.item.weaponName);
+        }
+
+        return current;
+    }
+
+    // find the lowest value in the current tree or subtree
+    ShopItem minValue(BSTNode root) {
+        ShopItem minValue = root.data;
+        while (root.left != null) {
+            minValue = root.left.data;
+            root = root.left;
+        }
+        return minValue;
+    }
+
+
+    // return the size of the BST
+    public int size() {
+        return recursiveSize(root);
+    }
+
+    // Recursively computes the size of the BST
+    private int recursiveSize(BSTNode current) {
+        if (current == null) {
+            return 0;
+        } else {
+            return (recursiveSize(current.left) + 1 + recursiveSize(current.right));
+        }
+    }
+
 
 }

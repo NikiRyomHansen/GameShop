@@ -19,4 +19,15 @@ class Weapon {
         weight = w;
         cost = c;
     }
+
+    // Overriding toString()
+    @Override
+    public String toString() {
+        return "Weapon details:" +
+                "\nName: " + weaponName +
+                "\nRange: " + range +
+                "\nDamage: " + damage +
+                "\nCost: " + cost +
+                "\nWeight: " + weight;
+    }
 }
