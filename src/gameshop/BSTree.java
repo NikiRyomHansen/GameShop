@@ -43,6 +43,27 @@ public class BSTree {
         }
     }
 
+    // Search - if not found returns null, if found returns BSTNode
+    public BSTNode search(Weapon weapon){
+
+        // return null if BST is empty
+        if(this.root == null){ return null; }
+
+        BSTNode current = this.root;
+        while(current != null){
+            if(current.data.item.weaponName.equals(weapon.weaponName)){
+                return current;
+            }
+            if(current.data.item.weaponName.compareToIgnoreCase(weapon.weaponName)>0){
+                current = current.left;
+            }
+            else{
+                current = current.right;
+            }
+        }
+        return null;
+    }
+
     // Print In Order Traversal of the BST
     public void inOrderTrav() {
         System.out.println("In Order Traversal");
@@ -50,7 +71,7 @@ public class BSTree {
     }
 
     // Recursively go through the BST in order - ONLY printing if stock is higher than 0
-    public void recursiveInOrder(BSTNode current) {
+    private void recursiveInOrder(BSTNode current) {
         if (current != null) {
             recursiveInOrder(current.left);
             if (current.data.numberInStock > 0) {
