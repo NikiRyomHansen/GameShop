@@ -49,7 +49,9 @@ public class BSTree {
 
         BSTNode nodee = search(weapon.weaponName);
         // if current is null then search could not find the node to be updated
-        if(nodee == null){ return false; }
+        if(nodee == null){
+            System.out.println("Node is null");
+            return false; }
 
         // finally, updates the original node (nodee) to the params
         nodee.data = new ShopItem(weapon,quantity);
