@@ -63,8 +63,9 @@ class Backpack {
             System.out.println("Backpack is empty");
         else {
             BackpackNode current = head;
+            System.out.println("Overview of the weapons in your backback");
             while (current != null) {
-                System.out.println("Overview of the weapons in your backback");
+
                 System.out.println(current.data);
                 current = current.next;
             }
