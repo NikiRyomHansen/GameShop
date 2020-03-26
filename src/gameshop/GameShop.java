@@ -91,11 +91,11 @@ public class GameShop {
         System.out.println("Please enter Player name:");
         pname = sc.next();
         Player pl = new Player(pname, 45);
-//        HashTable ht = new HashTable(101);
+////        HashTable ht = new HashTable(101);
         BSTree bst = new BSTree();
         addWeapons(bst, sc);
         bst.inOrderTrav();
-//        showRoom(ht, pl, sc);
+////        showRoom(ht, pl, sc);
         pl.printCharacter();
     }
 

@@ -44,18 +44,39 @@ public class BSTree {
     }
 
 
-    // Search - if not found returns null, if found returns BSTNode
-    public BSTNode search(Weapon weapon){
+    // Search - returns true if node exists OR false if node not found
+    public boolean search(String weaponName){
+
+        // return false if BST is empty
+        if(this.root == null){ return false; }
+
+        BSTNode current = this.root;
+        while(current != null){
+            if(current.data.item.weaponName.equals(weaponName)){
+                return true;
+            }
+            if(current.data.item.weaponName.compareToIgnoreCase(weaponName)>0){
+                current = current.left;
+            }
+            else{
+                current = current.right;
+            }
+        }
+        return false;
+    }
+
+    // Same as search but returns the BSTNode for update OR null if node not found
+    public BSTNode searchAndUpdate(String weaponName){
 
         // return null if BST is empty
         if(this.root == null){ return null; }
 
         BSTNode current = this.root;
         while(current != null){
-            if(current.data.item.weaponName.equals(weapon.weaponName)){
+            if(current.data.item.weaponName.equals(weaponName)){
                 return current;
             }
-            if(current.data.item.weaponName.compareToIgnoreCase(weapon.weaponName)>0){
+            if(current.data.item.weaponName.compareToIgnoreCase(weaponName)>0){
                 current = current.left;
             }
             else{
