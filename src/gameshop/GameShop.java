@@ -50,6 +50,18 @@ public class GameShop {
         return sc.nextDouble();
     }
 
+    public static String getString(Scanner sc, String message) {
+        System.out.println(message);
+        // while the input is not a String, keep looping
+        while (!sc.hasNext()) {
+                System.out.println("The input cannot be empty");
+                // clear Scanner input
+                sc.next();
+            System.out.print(message);
+        }
+        return sc.next();
+    }
+
     // Create a Player
     public static Player createPlayer() {
         // Prompting the user for the Player's name
@@ -148,16 +160,18 @@ public class GameShop {
         System.out.println("Please enter the NAME of the weapon you want to update ('end' to quit");
         String weaponName;
         weaponName = sc.next(); // TODO: EXTRA: Make it so weapons can be more than 1 word / token - (nextLine() perhaps)
-        // TODO: while the item is not in the list, keep prompting the user
+        // TODO: while the item is not in the tree, keep prompting the user
         // while input != "end" and while the weapon is in the list
-        while (weaponName.compareTo("end") != 0 && bst.search(weaponName)) { /////////////////
-            int weaponRange = getInteger(sc, "Please enter the Range of the Weapon (0-10):");
-            int weaponDamage = getInteger(sc, "Please enter the Damage of the Weapon:");
-            double weaponWeight = getDouble(sc, "Please enter the Weight of the Weapon (in pounds):");
-            double weaponCost = getDouble(sc, "Please enter the Cost of the Weapon:");
+        System.out.println(bst.search(weaponName));
+        while (weaponName.compareTo("end") != 0 && bst.search(weaponName) != null) {
+            weaponName = getString(sc, "Please enter the new name of the weapon");
+            int weaponRange = getInteger(sc, "Please enter the new Range of the Weapon (0-10):");
+            int weaponDamage = getInteger(sc, "Please enter the new Damage of the Weapon:");
+            double weaponWeight = getDouble(sc, "Please enter the new Weight of the Weapon (in pounds):");
+            double weaponCost = getDouble(sc, "Please enter the new Cost of the Weapon:");
             Weapon weapon = new Weapon(weaponName, weaponRange, weaponDamage, weaponWeight, weaponCost);
-            int quantity = getInteger(sc, "Please enter the quantity in stock:");
-            bst.update(weaponName, weapon, quantity);
+            int quantity = getInteger(sc, "Please enter the new quantity in stock:");
+            System.out.println(bst.update(weapon, quantity));
             System.out.print("Please enter the NAME of another Weapon ('end' to quit):");
             weaponName = sc.next();
         }
@@ -170,16 +184,16 @@ public class GameShop {
         String weaponName = sc.next(); // TODO: EXTRA: Make it so weapons can be more than 1 word / token - (nextLine() perhaps)
         // TODO: while the item is not in the list, keep prompting the user
         // while the input is not in the list or input != end , keep prompting
-        while (!bst.search(weaponName) && weaponName.compareTo("end") != 0) {
+        while (bst.search(weaponName) != null && weaponName.compareTo("end") != 0) {
             System.out.println("The item was not in the list, try again ('end' to quit)");
             weaponName = sc.next();
         }
         // while the item is in the list, ask the player if they want to delete "weapon"
-        if (bst.search(weaponName)) {
-            System.out.println("Enter 'Y' to delete:\n" + bst.getCurrentNode(weaponName).data.item);
+        if (bst.search(weaponName) != null) {
+            System.out.println("Enter 'Y' to delete:\n" + bst.search(weaponName).data.item);
             String delete = sc.next();
             if (delete.equalsIgnoreCase("y")) {
-                System.out.println("Successfully deleted: " + bst.getCurrentNode(weaponName).data.item.weaponName +
+                System.out.println("Successfully deleted: " + bst.search(weaponName).data.item.weaponName +
                         " from the shop");
                 bst.delete(weaponName, p);
             }
@@ -199,11 +213,11 @@ public class GameShop {
         choice = sc.next();
         while (choice.compareTo("end") != 0) {
             // if the current node is null, prompt the user
-            if (bst.getCurrentNode(choice) == null) {
+            if (bst.search(choice) == null) {
                 System.out.println(" ** " + choice + " not found!! **");
             } else {
                 // else assign the current node to a ShopItem
-                ShopItem si = bst.getCurrentNode(choice).data;
+                ShopItem si = bst.search(choice).data;
                 // if the item costs more than the player has
                 if (si.item.cost > p.money) {
                     System.out.println("Insufficient funds to buy " + si.item.weaponName);
