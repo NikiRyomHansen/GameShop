@@ -144,6 +144,9 @@ public class GameShop {
         weaponName = newSC.nextLine();
         while (weaponName.compareTo("end") != 0) {
             int weaponRange = getInteger(sc, "Please enter the Range of the Weapon (0-10):");
+            while (weaponRange < 0 || weaponRange > 10) {
+                weaponRange = getInteger(sc, "The range must be between 0-10");
+            }
             int weaponDamage = getInteger(sc, "Please enter the Damage of the Weapon:");
             double weaponWeight = getDouble(sc, "Please enter the Weight of the Weapon (in pounds):");
             double weaponCost = getDouble(sc, "Please enter the Cost of the Weapon:");
@@ -181,6 +184,11 @@ public class GameShop {
             bst.update(weapon, quantity);
             System.out.print("Please enter the NAME of another Weapon ('end' to quit):");
             weaponName = newSC.nextLine();
+            // while the input is not in the shop or input != end , keep prompting
+            while (bst.search(weaponName) == null && weaponName.compareTo("end") != 0) {
+                System.out.print("The item was not in the shop, try again ('end' to quit): ");
+                weaponName = newSC.nextLine();
+            }
         }
     }
 
