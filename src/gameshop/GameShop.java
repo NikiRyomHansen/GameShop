@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gameshop;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-/**
- * @author Adder
- */
 public class GameShop {
 
     private static Scanner sc = new Scanner(System.in);
@@ -260,12 +252,6 @@ public class GameShop {
     }
 
     public static void main(String[] args) {
-//        Weapon w = new Weapon("Club", 2, 2, 2, 2);
-//        BSTree bst = new BSTree();
-//        bst.insert(w, 4);
-//        w = new Weapon("Club", 3, 5, 4, 10);
-//        bst.update(w, 3);
-//        bst.inOrderTrav();
         Player p = createPlayer();
         menu(p);
     }
