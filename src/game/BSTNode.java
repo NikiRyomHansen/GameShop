@@ -1,4 +1,4 @@
-package gameshop;
+package game;
 
 public class BSTNode {
 

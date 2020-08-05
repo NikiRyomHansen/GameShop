@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/gameshop/Weapon.java</file>
-            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/gameshop/GameShop.java</file>
-            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/gameshop/Player.java</file>
-            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/gameshop/ShopItem.java</file>
-            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/gameshop/Backpack.java</file>
-            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/gameshop/HashTable.java</file>
+            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/game/Weapon.java</file>
+            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/game/GameShop.java</file>
+            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/game/Player.java</file>
+            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/game/ShopItem.java</file>
+            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/game/Backpack.java</file>
+            <file>file:/C:/Users/Adder/Documents/NetBeansProjects/GameShop/src/game/HashTable.java</file>
         </group>
     </open-files>
 </project-private>
