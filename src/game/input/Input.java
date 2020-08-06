@@ -38,4 +38,26 @@ public class Input {
         }
         return sc.nextInt();
     }
+
+    public static String getString(Scanner sc, String message) {
+        System.out.println(message);
+        // while the input is not a String, keep looping
+        while (!sc.hasNext()) {
+            System.out.println("The input cannot be empty");
+            // clear Scanner input
+            sc.next();
+            System.out.print(message);
+        }
+        return sc.next();
+    }
+
+    public static String getString(Scanner sc) {
+        // while the input is not a String, keep looping
+        while (!sc.hasNext()) {
+            System.out.println("The input cannot be empty");
+            // clear Scanner input
+            sc.next();
+        }
+        return sc.next();
+    }
 }

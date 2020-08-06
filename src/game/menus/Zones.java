@@ -1,5 +1,6 @@
 package game.menus;
 
+import game.Player;
 import game.zones.MonsterPit;
 
 import java.util.Scanner;
@@ -9,7 +10,7 @@ public class Zones {
     private static Scanner scanner = new Scanner(System.in);
 
     // TODO: Add Boss Pit
-    public static void zones() {
+    public static void zones(Player player) {
         // 1. Monster Pit
         // 2. Arena (PvP)
 
@@ -24,10 +25,7 @@ public class Zones {
 
         switch (choice) {
             case 1:
-                System.out.println("** You have entered the Monster Pit **");
-                System.out.println("Be prepared, you can at any time run into one or several monsters!");
-                MonsterPit monsterPit = new MonsterPit();
-                System.out.println(monsterPit.skeletonArr[0].getAttackPoints());
+                MonsterPitZone.monsterPit(player);
                 break;
             case 2:
                 break;

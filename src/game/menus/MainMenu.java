@@ -1,16 +1,31 @@
 package game.menus;
 
+import game.GameShop;
+import game.Player;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /* The initial start menu for the player */
 public class MainMenu {
 
-    Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
 
-    public void startMenu() {
+    // Create a Player
+    public static Player createPlayer() {
+        // Prompting the user for the Player's name
+        System.out.println("Please enter Player name: ");
+        String playerName = scanner.nextLine();
+        // Instantiating a Player
+        return new Player(playerName, 45);
+    }
+
+    public static void startMenu() {
 
         int choice;
+
+        // Create a player
+        Player player = createPlayer();
 
         // 1. Choose zone
         // 2. Enter the GameShop
@@ -32,7 +47,11 @@ public class MainMenu {
 
             switch (choice) {
                 case 1:
-
+                    Zones.zones(player);
+                    break;
+                case 2:
+                    GameShop.menu(player);
+                    break;
             }
 
         } while(true);

@@ -1,15 +1,25 @@
 package game.monsters;
 
+import game.Player;
+
 public abstract class Monster implements MonsterInfo{
 
     // Fields
     private String name;
     private int hp;
+    private int attackPoints;
+    private int defencePoints;
+    private double movementSpeed;
+    private double exp;
 
     // Constructor
-    public Monster(String name, int hp) {
+    public Monster(String name, int hp, int ap, int dp, double ms, double exp) {
         this.name = name;
         this.hp = hp;
+        this.attackPoints = ap;
+        this.defencePoints = dp;
+        this.movementSpeed = ms;
+        this.exp = exp;
     }
 
     public String getName() {
@@ -28,4 +38,69 @@ public abstract class Monster implements MonsterInfo{
         this.hp = hp;
     }
 
+    public int getAttackPoints() {
+        return attackPoints;
+    }
+
+    public void setAttackPoints(int attackPoints) {
+        this.attackPoints = attackPoints;
+    }
+
+    public int getDefencePoints() {
+        return defencePoints;
+    }
+
+    public void setDefencePoints(int defencePoints) {
+        this.defencePoints = defencePoints;
+    }
+
+    public double getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(double movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
+
+    public double getExp() {
+        return exp;
+    }
+
+    public void setExp(double exp) {
+        this.exp = exp;
+    }
+
+    @Override
+    public void attackPlayer(Player player) {
+        // When attacking a Player, call defendAgainstMonster() from the Player class and consider the monster AP
+        if (this.hp > 0) {
+            player.defendAgainstMonster(this.attackPoints);
+        }
+    }
+
+    // Defend against a player attack
+    @Override
+    public void defendAgainstPlayer(int ap) {
+        int hpLost;
+        // negate the damage taken with DP and the remainder is the hp lost from the attack
+        if (this.defencePoints > ap) {
+            System.out.println(this.name + " is too strong! You're not even scratching it!");
+            hpLost = 0;
+        } else {
+            // subtract the hp lost from the current hp.
+            hpLost = this.defencePoints - ap;
+        }
+        this.hp += hpLost;
+
+    }
+
+    @Override
+    public String getStats() {
+        return "Monster " + this.getName() +
+                " has " + this.getHp() +
+                " HP, " + this.attackPoints +
+                " AP, " + this.defencePoints +
+                " DP and " + this.movementSpeed +
+                " Movement Speed";
+    }
 }

@@ -17,9 +17,6 @@ public class GameShop {
 
     private static Scanner sc = new Scanner(System.in);
 
-
-
-
     public static double getDouble(Scanner sc, String message) {
         System.out.print(message);
         // while the input is not a double, keep looping
@@ -37,26 +34,9 @@ public class GameShop {
         return sc.nextDouble();
     }
 
-    public static String getString(Scanner sc, String message) {
-        System.out.println(message);
-        // while the input is not a String, keep looping
-        while (!sc.hasNext()) {
-                System.out.println("The input cannot be empty");
-                // clear Scanner input
-                sc.next();
-            System.out.print(message);
-        }
-        return sc.next();
-    }
 
-    // Create a Player
-    public static Player createPlayer() {
-        // Prompting the user for the Player's name
-        System.out.println("Please enter Player name: ");
-        String playerName = sc.nextLine();
-        // Instantiating a Player
-        return new Player(playerName, 45);
-    }
+
+
 
     // present the player for a menu
     public static void menu(Player p) {
