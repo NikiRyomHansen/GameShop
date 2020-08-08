@@ -1,0 +1,7 @@
+DONE -Add monster superclass
+Add 2 classes that implements the Monster interface
+
+Add Arena class with a width and length, this is where the monsters will spawn depending on the player choice -
+The player can choose to fight 1 or 2 monsters
+
+Add database support

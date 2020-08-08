@@ -1,4 +1,4 @@
-package gameshop;
+package game;
 
 // Binary Search Tree consisting of ShopItem objects
 public class BSTree {

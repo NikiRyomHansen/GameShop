@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gameshop;
+package game;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import static game.input.Input.getInteger;
 
 /**
  * @author Adder
@@ -14,24 +16,6 @@ import java.util.Scanner;
 public class GameShop {
 
     private static Scanner sc = new Scanner(System.in);
-
-    public static int getInteger(Scanner sc, String message) {
-        System.out.print(message);
-        // while the input is not an int, keep looping
-        while (!sc.hasNextInt()) {
-            // try-catch if the user inputs anything other than integers
-            try {
-                sc.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("No characters allowed");
-                // clear Scanner input
-                sc.next();
-            }
-            System.out.print(message);
-        }
-        return sc.nextInt();
-    }
-
 
     public static double getDouble(Scanner sc, String message) {
         System.out.print(message);
@@ -50,36 +34,18 @@ public class GameShop {
         return sc.nextDouble();
     }
 
-    public static String getString(Scanner sc, String message) {
-        System.out.println(message);
-        // while the input is not a String, keep looping
-        while (!sc.hasNext()) {
-                System.out.println("The input cannot be empty");
-                // clear Scanner input
-                sc.next();
-            System.out.print(message);
-        }
-        return sc.next();
-    }
 
-    // Create a Player
-    public static Player createPlayer() {
-        // Prompting the user for the Player's name
-        System.out.println("Please enter Player name: ");
-        String playerName = sc.nextLine();
-        // Instantiating a Player
-        // Instantiating a Binary Search Tree (BSTree) object
-        return new Player(playerName, 45);
-    }
+
+
 
     // present the player for a menu
     public static void menu(Player p) {
-        // Create a player
+        // Instantiating a Binary Search Tree (BSTree) object
         BSTree bst = new BSTree();
         int choice;
         do {
             // the player menu
-            System.out.println("** Game Menu **");
+            System.out.println("** Game shop Menu **");
             System.out.println("1. Add items to the shop");
             System.out.println("2. Update existing items in the shop");
             System.out.println("3. Delete items from the shop");
@@ -257,17 +223,6 @@ public class GameShop {
             choice = sc.next();
         }
         System.out.println();
-    }
-
-    public static void main(String[] args) {
-//        Weapon w = new Weapon("Club", 2, 2, 2, 2);
-//        BSTree bst = new BSTree();
-//        bst.insert(w, 4);
-//        w = new Weapon("Club", 3, 5, 4, 10);
-//        bst.update(w, 3);
-//        bst.inOrderTrav();
-        Player p = createPlayer();
-        menu(p);
     }
 
 }
