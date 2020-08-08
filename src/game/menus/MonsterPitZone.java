@@ -31,7 +31,7 @@ public class MonsterPitZone {
                     player.attackMonster(monsterPit.zombieArr[0]);
                     monsterPit.zombieArr[0].attackPlayer(player);
 
-                    // TODO: Move this to another class
+                    // TODO: Move this to another "battle" class
                     // If the players hp is less than 100, ask if the player wants to continue fighting
                     if (player.getHp() < 100 && count == 0) {
                         count++;
