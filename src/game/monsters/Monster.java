@@ -1,6 +1,9 @@
 package game.monsters;
 
 import game.Player;
+import game.dropTable.MonsterDrop;
+import game.dropTable.SkeletonDrop;
+import game.dropTable.ZombieDrop;
 
 public abstract class Monster implements MonsterInfo{
 
@@ -12,8 +15,9 @@ public abstract class Monster implements MonsterInfo{
     private double movementSpeed;
     private double exp;
 
+
     // Constructor
-    public Monster(String name, int hp, int ap, int dp, double ms, double exp) {
+    public Monster(String name, int hp, int ap, int dp, double ms, double exp, int difficulty, double silver) {
         this.name = name;
         this.hp = hp;
         this.attackPoints = ap;
@@ -75,6 +79,11 @@ public abstract class Monster implements MonsterInfo{
         // When attacking a Player, call defendAgainstMonster() from the Player class and consider the monster AP
         if (this.hp > 0) {
             player.defendAgainstMonster(this.attackPoints);
+        }
+        // if the Player dies from the hit:
+        if (player.getHp() <= 0) {
+            System.out.println("The final blow just struck you, " + this.getName() + " killed you!");
+            return;
         }
     }
 

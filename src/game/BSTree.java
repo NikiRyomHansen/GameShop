@@ -99,7 +99,7 @@ public class BSTree {
     // Delete a weapon from the list
     public void delete(String weaponName, Player player) {
         root = deleteRec(root, weaponName);
-        player.numItems--;
+        player.setNumItems(player.getNumItems() -1);
     }
 
     // recursive function to delete a node: ShopItem by weaponName

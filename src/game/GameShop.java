@@ -184,7 +184,7 @@ public class GameShop {
     public static void showRoomMenu(BSTree bst, Player p) {
         System.out.println("WELCOME TO THE SHOWROOM!!!!");
         bst.inOrderTrav();
-        System.out.println("You have " + p.money + " money.");
+        System.out.println("You have " + p.getMoney() + " money.");
         System.out.println("Please select a weapon to buy by name('end' to quit):");
     }
 
@@ -200,15 +200,15 @@ public class GameShop {
                 // else assign the current node to a ShopItem
                 ShopItem si = bst.search(choice).data;
                 // if the item costs more than the player has
-                if (si.item.cost > p.money) {
+                if (si.item.cost > p.getMoney()) {
                     System.out.println("Insufficient funds to buy " + si.item.weaponName);
                 } else {
                     // else buy the item, withdraw the cost from the player and decrease the stock
                     // if the item is already in the backpack, don't buy
                     // flag to track if item is in backpack
                     boolean flag = false;
-                    for (int i = 0; i < p.numItems; i++) {
-                        if (p.backpack.search(choice)) {
+                    for (int i = 0; i < p.getNumItems(); i++) {
+                        if (p.getBackpack().search(choice)) {
                             System.out.println("** You already have '" + choice + "' in your backpack **");
                             flag = true;
                         }

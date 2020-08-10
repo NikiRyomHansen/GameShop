@@ -8,13 +8,17 @@ public class Zombie extends Monster {
     private ZombieDrop zombieDrop;
 
     // Constructor
-    public Zombie(String name, int hp, int ap, int dp, double ms, double exp, int difficulty) {
-        super(name, hp, ap, dp, ms, exp);
-        this.zombieDrop = new ZombieDrop(difficulty);
+    public Zombie(String name, int hp, int ap, int dp, double ms, double exp, int difficulty, double silver) {
+        super(name, hp, ap, dp, ms, exp, difficulty, silver);
+        this.zombieDrop = new ZombieDrop(difficulty, silver);
     }
 
     public ZombieDrop getZombieDrop() {
         return zombieDrop;
+    }
+
+    public String silverDrop() {
+        return this.getName() + " dropped " + zombieDrop.getSilver() + " silver!";
     }
 
 }

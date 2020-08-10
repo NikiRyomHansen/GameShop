@@ -1,7 +1,6 @@
 package game.menus;
 
 import game.Player;
-import game.zones.MonsterPit;
 
 import java.util.Scanner;
 
@@ -15,8 +14,9 @@ public class Zones {
         // 2. Arena (PvP)
 
         System.out.println("** Zone Menu **");
-        System.out.println("1. Monster Pit");
-        System.out.println("2. Arena (PvP)");
+        System.out.println("1. Main Story");
+        System.out.println("2. Monster Pit");
+        System.out.println("3. Arena (PvP)");
         System.out.println("9. Exit");
 
         // Get the user input
@@ -25,7 +25,7 @@ public class Zones {
 
         switch (choice) {
             case 1:
-                MonsterPitZone.monsterPit(player);
+                Level1.levelOne(player);
                 break;
             case 2:
                 break;

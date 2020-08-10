@@ -6,15 +6,14 @@
 package game;
 
 import game.monsters.Monster;
-import game.monsters.Zombie;
 
 // TODO: Incorporate critical chance and critical damage
 public class Player {
     private String name;
-    public Backpack backpack;
+    private Backpack backpack;
     // numItems tracks the amount of items that is in the players backpack
-    public int numItems;
-    public double money;
+    private int numItems;
+    private double money;
     private int hp;
     private int attackPoints;
     private int defencePoints;
@@ -26,9 +25,9 @@ public class Player {
     public Player(String name, double money) {
         this.name = name;
         this.money = money;
-        this.hp = 300;
+        this.hp = 500;
         this.attackPoints = 25;
-        this.defencePoints = 20;
+        this.defencePoints = 10;
         this.movementSpeed = 8;
         this.numItems = 0;
         this.backpack = new Backpack();
@@ -102,6 +101,31 @@ public class Player {
         this.hp = hp;
     }
 
+    public Backpack getBackpack() {
+        return backpack;
+    }
+
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
+    }
+
+    public int getNumItems() {
+        return numItems;
+    }
+
+    public void setNumItems(int numItems) {
+        this.numItems = numItems;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    // TODO: create a method for continous attack and for single attack
     // Attack a monster
     public void attackMonster(Monster monster) {
         // When attacking a monster, call defendAgainstPlayer() from the Monster class and consider the player AP
@@ -112,10 +136,16 @@ public class Player {
         }
         System.out.println("You have damaged " + monster.getName() + " " +
                 (monster.getDefencePoints() - this.attackPoints) + " HP! It now has " + monster.getHp() + " left.");
+        try {
+            Thread.sleep(200);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     // Defend against a monster
     public void defendAgainstMonster(int ap) {
+
         int hpLost;
         // negate the damage taken with DP and the remainder is the hp lost from the attack
         if (this.defencePoints > ap) {
@@ -127,5 +157,10 @@ public class Player {
             System.out.println("You have taken " + hpLost + " damage! You have " + this.hp + " hp left.");
         }
         this.hp += hpLost;
+        try {
+            Thread.sleep(200);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
