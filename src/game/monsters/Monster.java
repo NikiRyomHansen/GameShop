@@ -78,7 +78,7 @@ public abstract class Monster implements MonsterInfo{
     public void attackPlayer(Player player) {
         // When attacking a Player, call defendAgainstMonster() from the Player class and consider the monster AP
         if (this.hp > 0) {
-            player.defendAgainstMonster(this.attackPoints);
+            player.defendAgainstMonster(this.attackPoints, this);
         }
         // if the Player dies from the hit:
         if (player.getHp() <= 0) {

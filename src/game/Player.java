@@ -144,7 +144,7 @@ public class Player {
     }
 
     // Defend against a monster
-    public void defendAgainstMonster(int ap) {
+    public void defendAgainstMonster(int ap, Monster monster) {
 
         int hpLost;
         // negate the damage taken with DP and the remainder is the hp lost from the attack
@@ -154,13 +154,13 @@ public class Player {
         } else {
             // subtract the hp lost from the current hp.
             hpLost = this.defencePoints - ap;
-            System.out.println("You have taken " + hpLost + " damage! You have " + this.hp + " hp left.");
+            System.out.println("You have taken " + hpLost + " damage from " + monster.getName() + " You have " + this.hp + " hp left.");
         }
         this.hp += hpLost;
-        try {
-            Thread.sleep(200);
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(200);
+//        } catch(InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 }
