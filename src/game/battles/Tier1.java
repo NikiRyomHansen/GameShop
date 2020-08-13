@@ -2,6 +2,7 @@ package game.battles;
 
 import game.Player;
 import game.input.Input;
+import game.monsters.Monster;
 import game.monsters.Skeleton;
 import game.monsters.Zombie;
 import game.zones.Level1;
@@ -15,137 +16,27 @@ public class Tier1 {
     private static Scanner sc = new Scanner(System.in);
     private static Level1 monsterSpawn = new Level1();
 
-    public static void oneZombie(Player player) {
-        Zombie zombie = monsterSpawn.zombieArr[0];
-        System.out.println("You have run into a crazed zombie!");
-        // Display the stats of the enemy to the Player
-        System.out.println(zombie.getStats());
-        System.out.println();
-        System.out.println("What would you like to do?");
-        System.out.println("1. Attack");
-        System.out.println("2. Flee");
-
-        // Get the user input
-        int choice;
-        choice = Input.getInteger(sc);
-
-        // Interpret the user input
-        switch (choice) {
-            // If the user attacks
-            case 1:
-                // Count to keep track if the player has tried to flee
-                int count = 0;
-                // While the zombie is still alive, keep attacking
-                while (zombie.getHp() > 0 && player.getHp() > 0) {
-                    player.attackMonster(zombie);
-                    zombie.attackPlayer(player);
-                    // if the players hp is less than 100, ask to flee or stay
-                    if (player.getHp() < 100 && count == 0) {
-                        fled = Utility.fleeMidBattle(player, sc, zombie);
-                        count++;
-                        // if player successfully flees, break out of the switch statement and continue
-                        if (fled) {
-                            break;
-                        }
-                    }
-                }
-                // When the zombie is dead, provide the silver and exp dropped from the zombie
-                if (zombie.getHp() <= 0) {
-                    // TODO: SetEXP
-                    player.setMoney(player.getMoney() + zombie.getZombieDrop().getSilver());
-                }
-                break;
-            case 2:
-                fled = Utility.fleePreBattle(player, zombie);
-                if (fled)
-                    break;
-                else
-                    oneZombie(player);
-        }
-    }
-
-    public static void oneZombieOneSkeleton(Player player) {
-
-        Zombie zombie = monsterSpawn.zombieArr[1];
-        Skeleton skeleton = monsterSpawn.skeletonArr[0];
-        System.out.println("You have run into a skeleton and a zombie!");
-        // Display the stats of the enemy to the Player
-        System.out.println(zombie.getStats());
-        System.out.println(skeleton.getStats());
-        System.out.println();
-        System.out.println("What would you like to do?");
-        System.out.println("1. Attack");
-        System.out.println("2. Flee");
-
-        // Get the user input
-        int choice;
-        choice = Input.getInteger(sc);
-
-        // Interpret the user input
-        switch (choice) {
-            // If the user attacks
-            case 1:
-                // Count to keep track if the player has tried to flee
-                int count = 0;
-                // Count to keep track of who to attack so the Player doesn't attack both enemies in one round
-                int oddEvenWhoToAttack = 0;
-
-                // While either monster AND the player is still alive, keep attacking
-                while ((zombie.getHp() > 0 || skeleton.getHp() > 0) && player.getHp() > 0) {
-                    // If the remainder is even, attack the skeleton else the zombie
-                    if (oddEvenWhoToAttack % 2 == 0 || zombie.getHp() <= 0) {
-                        if (skeleton.getHp() > 0) {
-                            player.attackMonster(skeleton);
-                            skeleton.attackPlayer(player);
-                        }
-                    } else {
-                        if (zombie.getHp() > 0 || skeleton.getHp() <= 0) {
-                            player.attackMonster(zombie);
-                            zombie.attackPlayer(player);
-                        }
-                    }
-                    oddEvenWhoToAttack++;
-
-                    // if the players hp is less than 100, ask to flee or stay
-                    if (player.getHp() < 100 && count == 0) {
-                        fled = Utility.fleeMidBattle(player, sc, zombie, skeleton);
-                        count++;
-                        // if player successfully flees, break out of the switch statement and continue
-                        if (fled) {
-                            break;
-                        }
-                    }
-
-                }
-                // When the zombie AND skeleton is dead, provide the silver and exp dropped from them
-                if (zombie.getHp() <= 0 && skeleton.getHp() <= 0) {
-                    // TODO: SetEXP
-                    player.setMoney(player.getMoney() + zombie.getZombieDrop().getSilver());
-                    System.out.println(zombie.silverDrop());
-                    player.setMoney(player.getMoney() + skeleton.getSkeletonDrop().getSilver());
-                    System.out.println(skeleton.silverDrop());
-                }
-                break;
-            case 2:
-                fled = Utility.fleePreBattle(player, zombie);
-                if (fled)
-                    break;
-                else
-                    oneZombie(player);
-        }
-    }
+    private static int zombiesKilled = 0;
+    private static int skeletonsKilled = 0;
 
     public static void zombieSkeletonBattle(int amountOfZombies, int amountOfSkeletons, Player player) {
-        Zombie[] zombieArr = new Zombie[amountOfZombies];
-        Skeleton[] skeletonArr = new Skeleton[amountOfSkeletons];
 
-        for (int i = 0; i < zombieArr.length; i++) {
-            zombieArr[i] = new Zombie("Zombie", 70, 15, 10, 3, 5, 1, 5);
+        Monster[] monsterArr = new Monster[amountOfZombies + amountOfSkeletons];
+
+        if (amountOfZombies != 0) {
+            // Adding zombies to the monster array
+            for (int i = 0; i < amountOfZombies; i++) {
+                monsterArr[i] = new Zombie("Zombie", 70, 15, 10, 3, 5, 1, 5);
+            }
         }
 
-        for (int i = 0; i < skeletonArr.length; i++) {
-            skeletonArr[i] = new Skeleton("Skeleton", 50, 20, 5, 10, 3, 1, 7);
+        if (amountOfSkeletons != 0) {
+            // Adding skeletons to the monster array starting at the first empty index
+            for (int i = amountOfZombies; i < monsterArr.length; i++) {
+                monsterArr[i] = new Skeleton("Skeleton", 50, 20, 5, 10, 3, 1, 7);
+            }
         }
+        System.out.println("Length of array: " + monsterArr.length);
 
 
         System.out.println("You have run into " + amountOfZombies + " zombies and " + amountOfSkeletons + " skeletons!");
@@ -163,50 +54,93 @@ public class Tier1 {
             // If the user attacks
             case 1:
                 // Count to keep track if the player has tried to flee
-                int count = 0;
+                boolean hasTriedToFlee = false;
+                // Flags to keep track of the loot from each individual monster
+                boolean hasReceivedZombieDrop = false;
+                boolean hasReceivedSkeletonDrop = false;
                 // Count to keep track of who to attack so the Player doesn't attack both enemies in one round
                 int whoToAttack = 0;
+                int i = 0, j = amountOfZombies;
+                // Decide iterations of the for loop
+                int iterations = Math.max(amountOfSkeletons, amountOfZombies); // Returns highest value
 
-                for (int i = 0, j = 0; i < zombieArr.length || j < skeletonArr.length;) {
+                for (int k = 0; k < iterations; k++) {
                     // While either monster AND the player is still alive, keep attacking
-                    while ((zombieArr[i].getHp() > 0 || skeletonArr[j].getHp() > 0) && player.getHp() > 0) {
-                        // If the remainder is even, attack the skeleton else the zombie
-                        if ((whoToAttack % 2 == 0 || zombieArr[i].getHp() <= 0)) {
-                            if (skeletonArr[j].getHp() > 0) {
-                                player.attackMonster(skeletonArr[j]);
-                                skeletonArr[j].attackPlayer(player);
-                            }
-                        } else {
-                            if (zombieArr[i].getHp() > 0 || skeletonArr[j].getHp() <= 0) {
-                                player.attackMonster(zombieArr[i]);
-                                zombieArr[i].attackPlayer(player);
-                            }
+                    while ((monsterArr[i].getHp() > 0 || monsterArr[j].getHp() > 0) && player.getHp() > 0) {
+                        // If the remainder is even, attack the zombie else the skeleton
+                        if (whoToAttack % 2 == 0 && monsterArr[i].getHp() > 0) {
+                            // Zombie attack here
+                            player.attackMonster(monsterArr[i]);
+                            monsterArr[i].attackPlayer(player);
+                        } else { // Skeleton attack here
+                            if (monsterArr[j].getHp() > 0)
+                                player.attackMonster(monsterArr[j]);
+                                monsterArr[j].attackPlayer(player);
                         }
                         whoToAttack++;
+                        // When the monster dies, reward the player with the monsterDrop
+                        if (monsterArr[i].getHp() <= 0) {
+                            // TODO: SetEXP
+                            // If the monster has already received this monsters drop, skip it
+                            if (!hasReceivedZombieDrop && i < amountOfZombies) {
+                                player.setMoney(player.getMoney() + monsterArr[i].getMonsterDrop().getSilver());
+                                System.out.println(monsterArr[i].getSilverDrop());
+                                hasReceivedZombieDrop = true;
+                                zombiesKilled++;
+                            }
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (monsterArr[j].getHp() <= 0) {
+                            if (!hasReceivedSkeletonDrop) {
+                                player.setMoney(player.getMoney() + monsterArr[j].getMonsterDrop().getSilver());
+                                System.out.println(monsterArr[j].getSilverDrop());
+                                hasReceivedSkeletonDrop = true;
+                                skeletonsKilled++;
+                            }
 
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    // Increment j when the skeleton dies and when we are not at the last index of the array
+                    if (monsterArr[j].getHp() <= 0 && hasReceivedSkeletonDrop && j < monsterArr.length - 1) {
+                        j++;
+                        // Set to false to that the player will receive loot from the next skeleton kill
+                        hasReceivedSkeletonDrop = false;
+                    }
+                    // Increment i so it stays below the start index of the skeletons
+                    if (monsterArr[i].getHp() <= 0 && hasReceivedZombieDrop && i < amountOfZombies - 1) {
+                        i++;
+                        hasReceivedZombieDrop = false;
+                    }
 
-                        /*I have two arrays and if one array contains 2 elements, the other 1 I want to stop looping the */
+                    // if the players hp is less than 100, ask to flee or stay
+                        if (player.getHp() < 100 && !hasTriedToFlee) {
+                            // Check if the monsters are alive (Player can flee from a dead monster even if it's faster)
+                            if (monsterArr[i].getHp() > 0 && monsterArr[j].getHp() > 0)
+                                fled = Utility.fleeMidBattle(player, sc, monsterArr[i], monsterArr[j]);
+                            else if (monsterArr[i].getHp() > 0 && monsterArr[j].getHp() <= 0)
+                                fled = Utility.fleeMidBattle(player, sc, monsterArr[i]);
+                            else
+                                fled = Utility.fleeMidBattle(player, sc, monsterArr[j]);
 
-                        // if the players hp is less than 100, ask to flee or stay
-                        if (player.getHp() < 100 && count == 0) {
-                            fled = Utility.fleeMidBattle(player, sc, zombieArr[i], skeletonArr[j]);
-                            count++;
-                            // if player successfully flees, break out of the switch statement and continue
+                            hasTriedToFlee = true;
+                            // if player successfully flees, break out of the switch statement
                             if (fled) {
                                 break;
                             }
                         }
-
-                    }
-                    // When the zombie AND skeleton is dead, provide the silver and exp dropped from them
-                    if (zombieArr[i].getHp() <= 0 && skeletonArr[j].getHp() <= 0) {
-                        // TODO: SetEXP
-                        player.setMoney(player.getMoney() + zombieArr[i].getZombieDrop().getSilver());
-                        System.out.println(zombieArr[i].silverDrop());
-                        player.setMoney(player.getMoney() + skeletonArr[j].getSkeletonDrop().getSilver());
-                        System.out.println(skeletonArr[j].silverDrop());
-                    }
                 }
+                System.out.println("Zombies Killed: " + zombiesKilled);
+                System.out.println("Skeletons killed: " + skeletonsKilled);
+                int sum = zombiesKilled + skeletonsKilled;
                 break;
 
             case 2:
@@ -219,14 +153,18 @@ public class Tier1 {
 
     }
 
-    public static void zombieBattle(int amountOfZombies, Player player) {
-        Zombie[] zombieArr = new Zombie[amountOfZombies];
+    public static void monsterBattle(String monsterType, int amountOfMonsters, Player player) {
+        Monster[] monsterArr = new Monster[amountOfMonsters];
 
-        for (int i = 0; i < zombieArr.length; i++) {
-            zombieArr[i] = new Zombie("Zombie", 70, 15, 10, 3, 5, 1, 5);
+        // Populate the array with monsters
+        for (int i = 0; i < monsterArr.length; i++) {
+            if (monsterType.equalsIgnoreCase("zombie"))
+                monsterArr[i] = new Zombie("Zombie", 70, 15, 10, 3, 5, 1, 5);
+            else if (monsterType.equalsIgnoreCase("skeleton"))
+                monsterArr[i] = new Skeleton("Skeleton", 50, 20, 5, 10, 3, 1, 7);
         }
 
-        System.out.println("You have run into " + amountOfZombies + " zombie!");
+        System.out.println("You have run into " + amountOfMonsters + " " + monsterType + "s");
         System.out.println();
         System.out.println("What would you like to do?");
         System.out.println("1. Attack");
@@ -236,36 +174,42 @@ public class Tier1 {
         int choice;
         choice = Input.getInteger(sc);
 
+        boolean hasTriedToFlee = false;
+
         // Interpret the user input
         switch (choice) {
             // If the user attacks
             case 1:
                 // Count to keep track if the player has tried to flee
-                int count = 0;
 
-                for (int i = 0; i < zombieArr.length; i++) {
+                for (int i = 0; i < monsterArr.length; i++) {
                     // While either monster AND the player is still alive, keep attacking
-                    while (zombieArr[i].getHp() > 0 && player.getHp() > 0) {
-                        player.attackMonster(zombieArr[i]);
-                        zombieArr[i].attackPlayer(player);
+                    while (monsterArr[i].getHp() > 0 && player.getHp() > 0) {
+                        player.attackMonster(monsterArr[i]);
+                        monsterArr[i].attackPlayer(player);
                     }
 
                     // if the players hp is less than 100, ask to flee or stay
-                    if (player.getHp() < 100 && count == 0) {
-                        fled = Utility.fleeMidBattle(player, sc, zombieArr[i]);
-                        count++;
-                        // if player successfully flees, break out of the switch statement and continue
+                    // Check if the monsters are alive (Player can flee from a dead monster even if it's faster)
+                    if (player.getHp() < 100 && !hasTriedToFlee && monsterArr[i].getHp() > 0) {
+                        fled = Utility.fleeMidBattle(player, sc, monsterArr[i]);
+                        hasTriedToFlee = true;
+                        // if player successfully flees, break out of the switch statement
                         if (fled) {
                             break;
                         }
                     }
                     // When the zombie AND skeleton is dead, provide the silver and exp dropped from them
-                    if (zombieArr[i].getHp() <= 0) {
+                    if (monsterArr[i].getHp() <= 0) {
                         // TODO: SetEXP
-                        player.setMoney(player.getMoney() + zombieArr[i].getZombieDrop().getSilver());
-                        System.out.println(zombieArr[i].silverDrop());
+                        player.setMoney(player.getMoney() + monsterArr[i].getMonsterDrop().getSilver());
+                        System.out.println(monsterArr[i].getSilverDrop());
                     }
                 }
+                // break out of the switch statement after killing all monsters
+                break;
+            case 2:
+                // TODO: Insert fleePreBattle here
                 break;
         }
     }

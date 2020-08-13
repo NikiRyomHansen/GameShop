@@ -15,8 +15,4 @@ public class Skeleton extends Monster {
     public SkeletonDrop getSkeletonDrop() {
         return skeletonDrop;
     }
-
-    public String silverDrop() {
-        return this.getName() + " dropped " + skeletonDrop.getSilver() + " silver!";
-    }
 }

@@ -17,8 +17,4 @@ public class Zombie extends Monster {
         return zombieDrop;
     }
 
-    public String silverDrop() {
-        return this.getName() + " dropped " + zombieDrop.getSilver() + " silver!";
-    }
-
 }

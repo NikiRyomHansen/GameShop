@@ -5,6 +5,8 @@ import game.dropTable.MonsterDrop;
 import game.dropTable.SkeletonDrop;
 import game.dropTable.ZombieDrop;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class Monster implements MonsterInfo{
 
     // Fields
@@ -14,6 +16,7 @@ public abstract class Monster implements MonsterInfo{
     private int defencePoints;
     private double movementSpeed;
     private double exp;
+    private MonsterDrop monsterDrop;
 
 
     // Constructor
@@ -24,6 +27,12 @@ public abstract class Monster implements MonsterInfo{
         this.defencePoints = dp;
         this.movementSpeed = ms;
         this.exp = exp;
+        if (name.equalsIgnoreCase("zombie")) {
+            this.monsterDrop = new ZombieDrop(difficulty, silver);
+        } else if (name.equalsIgnoreCase("skeleton")) {
+            this.monsterDrop = new SkeletonDrop(difficulty, silver);
+
+        }
     }
 
     public String getName() {
@@ -72,6 +81,18 @@ public abstract class Monster implements MonsterInfo{
 
     public void setExp(double exp) {
         this.exp = exp;
+    }
+
+    public MonsterDrop getMonsterDrop() {
+        return monsterDrop;
+    }
+
+    public void setMonsterDrop(MonsterDrop monsterDrop) {
+        this.monsterDrop = monsterDrop;
+    }
+
+    public String getSilverDrop() {
+        return this.getName() + " dropped " + monsterDrop.getSilver() + " silver!";
     }
 
     @Override
